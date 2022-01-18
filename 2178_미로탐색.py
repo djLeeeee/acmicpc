@@ -1,0 +1,21 @@
+import sys
+p=sys.stdin.readline
+
+def gogogo(x,y,M,N,ans):
+    if 0<=x<M and 0<=y<N:
+        if miroxy[y][x]==1 and zeros[y][x]>=ans:
+            zeros[y][x]=ans
+            ans+=1
+            gogogo(x-1,y,M,N,ans)
+            gogogo(x+1,y,M,N,ans)
+            gogogo(x,y-1,M,N,ans)
+            gogogo(x,y+1,M,N,ans)
+
+N,M=map(int,p().split())
+miroxy=[]
+for _ in range(N):
+    a=str(p())
+    miroxy.append([int(a[i]) for i in range(M)])
+zeros=[[M*N]*M for i in range(N)]
+gogogo(0,0,M,N,1)
+print(zeros[N-1][M-1])
