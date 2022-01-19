@@ -11,7 +11,6 @@ a=[0 for _ in range(2*N+1)]
 min=N+1
 max=-N-1
 
-# 기존 데이터를 보다 간단하게 list로 정리 / max min 저장
 for _ in range(n):
     num=int(sys.stdin.readline())
     a[num+N]+=1
