@@ -1,3 +1,5 @@
+from sys import stdin as s
+
 # max heap 생성
 def making_heap(heap, new_num):
     index = len(heap)
@@ -25,7 +27,7 @@ def reorder_heap(heap):
             elif heap [index * 2 + 1] > heap [index] and heap [index * 2 + 1] > heap [index * 2]:
                 heap [index], heap [index * 2 + 1] = heap [index * 2 + 1], heap [index]
                 index = index * 2 + 1
-            else:   
+            else:
                 break
         except:
             try:
@@ -39,12 +41,12 @@ def reorder_heap(heap):
     return heap
 
 # 초기값 설정
-N = int(input())
+N = int(s.readline())
 my_heap = [0]
 
 # 문제 해결
 for _ in range(N):
-    my_input = int(input())
+    my_input = int(s.readline())
     if my_input == 0:
         if len(my_heap) == 1:
             print(0)
