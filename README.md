@@ -1,4 +1,5 @@
 # 백준 온라인 문제풀이
+- 다른 문제 풀 때 다시 쓸만한 코드 / 재밌게 짠 코드만 올릴 것!
 
 ## 1. 시간복잡도
 https://wiki.python.org/moin/TimeComplexity
