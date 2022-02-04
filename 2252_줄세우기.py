@@ -15,23 +15,44 @@ from collections import deque
 n, m = map(int, s.readline().split())
 
 connection = [ [ ] for _ in range(n + 1) ]
-get_out = [0] * (n + 1)
+# 역방향
+# get_out = [0] * (n + 1)
+
+# for i in range(m):
+#     x, y = map(int, s.readline().split())
+#     connection[y].append(x)
+#     get_out[x] += 1
+
+# result = deque([])
+# leaves = deque([])
+# for i in range(1, n + 1):
+#     if get_out[i] == 0:
+#         leaves.append(i)
+# while leaves:
+#     a = leaves.popleft()
+#     result.appendleft(a)
+#     for j in connection[a]:
+#         get_out[j] -= 1
+#         if get_out[j] == 0:
+#             leaves.append(j)
+# print(*result)
+
+# 정방향
+get_in = [0] * (n + 1)
 
 for i in range(m):
     x, y = map(int, s.readline().split())
-    connection[y].append(x)
-    get_out[x] += 1
+    connection[x].append(y)
+    get_in[y] += 1
 
-result = deque([])
-leaves = deque([])
+parents = deque([])
 for i in range(1, n + 1):
-    if get_out[i] == 0:
-        leaves.append(i)
-while leaves:
-    a = leaves.popleft()
-    result.appendleft(a)
+    if get_in[i] == 0:
+        parents.append(i)
+while parents:
+    a = parents.popleft()
+    print(a, end = ' ')
     for j in connection[a]:
-        get_out[j] -= 1
-        if get_out[j] == 0:
-            leaves.append(j)
-print(*result)
+        get_in[j] -= 1
+        if get_in[j] == 0:
+            parents.append(j)
