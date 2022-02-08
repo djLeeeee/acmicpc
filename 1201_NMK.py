@@ -1,4 +1,5 @@
 # 1201 NMK
+# 덕분에 5천등 이내로 진입!
 
 from sys import stdin as s
 
