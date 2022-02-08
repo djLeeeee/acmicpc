@@ -38,14 +38,12 @@ from sys import stdin as s
 
 # +) 02/09 위 코드는 for문으로 물품들을 차례대로 받고 있는데, 받는 것과 동시에 dp를 돌릴수도 있겠다.
 # 성공하면 코드가 더 깔끔해질듯하다. 시도해보자
+# 역순으로 진행하면 같은 품목 두 번 쓸 일 없다!
 
 N, M = map(int, s.readline().split())
 dp = [0] * (M + 1)
 for _ in range(N):
 	m, v = map(int, s.readline().split())
-	new_dp = [0] * (M + 1)
-	new_dp[:m] = dp[:m]
-	for j in range(m, M + 1):
-		new_dp[j] = max(dp[j], dp[j - m] + v)
-	dp = new_dp
+	for j in range(M, m - 1, -1):
+		dp[j] = max(dp[j], dp[j - m] + v)
 print(dp[-1])
