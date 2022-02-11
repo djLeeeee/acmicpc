@@ -9,31 +9,34 @@ m = int(s.readline())
 connection = [[] for _ in range(n + 1)]
 for _ in range(m):
     x, y, d = map(int, s.readline().split())
-    connection[x].append(([y], d))
+    connection[x].append([d, y])
 init, fin = map(int, s.readline().split())
-start = deque(connection[init][:])
-max_d = 0
+time = [0] * (n + 1)
+start = deque(connection[init])
 while start:
-    now, distance = start.popleft()
+    now = start.popleft()
     for j in connection[now[-1]]:
-        if j[0][-1] == fin:
-            now = now[:]
-            now.append(fin)
-            if max_d < distance + j[1]:
-                ans = [now]
-                max_d = distance + j[1]
-            elif max_d == distance + j[1]:
-                ans.append(now)
+        if j[-1] == fin:
+            x = now[:]
+            x.append(fin)
+            if time[fin] < x[0] + j[0]:
+                ans = [x]
+                time[fin] = x[0] + j[0]
+            elif time[fin] == x[0] + j[0]:
+                ans.append(x)
         else:
-            now = now[:]
-            now.append(j[0][-1])
-            start.append((now, distance + j[1]))
-            if max_d < distance + j[1]:
+            x = now[:]
+            x.append(j[-1])
+            if time[j[-1]] <= x[0] + j[0]:
+                time[j[-1]] = x[0] + j[0]
+                x[0] += j[0]
+                start.append(x)
+            if time[fin] < x[0] + j[0]:
                 ans = []
-print(max_d)
+print(time[fin])
 road = set()
 for path in ans:
-    road.add((init, path[0]))
-    for i in range(len(path) - 1):
+    road.add((init, path[1]))
+    for i in range(1, len(path) - 1):
         road.add((path[i], path[i + 1]))
 print(len(road))
