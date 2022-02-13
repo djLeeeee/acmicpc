@@ -1,4 +1,5 @@
 # 9238 열쇠
+# 정신나간 코드
 
 from sys import stdin as s
 
