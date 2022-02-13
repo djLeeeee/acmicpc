@@ -1,6 +1,9 @@
 [![Solved.ac Profile](https://camo.githubusercontent.com/a61cd4a3f0ec198a2b27d7f242c3387bd80d58e437ddaca71f4c2bef052c5e7e/68747470733a2f2f6d617a617373756d6e6964612e7774662f6170692f76322f67656e65726174655f62616467653f626f6a3d626f6d756c31313238)](https://solved.ac/bomul1128)
 
 
+![image](https://user-images.githubusercontent.com/97663863/153756080-77b9523a-6942-4e57-bcbe-ac05e4123fe2.png)
+22년 2월 13일 시작한지 한 달만에 플레 달성!
+
 
 
 
