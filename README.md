@@ -4,7 +4,7 @@
 ![image](https://user-images.githubusercontent.com/97663863/153756080-77b9523a-6942-4e57-bcbe-ac05e4123fe2.png)
 22년 2월 13일 시작한지 한 달만에 플레 달성!
 
-
+~~다음 목표는 다이아?~~
 
 
 # 백준 온라인 문제풀이
