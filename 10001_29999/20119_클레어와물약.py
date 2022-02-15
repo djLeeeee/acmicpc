@@ -7,21 +7,18 @@
 # 해결방안 : connection 의 요소를 dictionary 로 받기?
 # 구현은 가능할 듯. 근데 탐색 시간 엄청 걸릴 듯? 종료 조건은 딕셔너리가 빌 때까지?
 # 다른 방법....
-# 머리 터진다ㅏㅏㅏ
+# 결국 통과! receipt 을 넘버링해 재료를 다 모은 receipt 을 확인해줬다
 
 from sys import stdin as s
 from collections import deque
 
 n, m = map(int, s.readline().split())
-connection = [[0] * (n + 1) for _ in range(n + 1)]
+connection = [[] for _ in range(n + 1)]
 receipt_need = [0] * m
 for j in range(m):
     new_receipt = list(map(int, s.readline().split()))
     for i in new_receipt[1:-1]:
-        if not connection[i][new_receipt[-1]]:
-            connection[i][new_receipt[-1]] = [j]
-        else:
-            connection[i][new_receipt[-1]].append(j)
+        connection[i].append((j, new_receipt[-1]))
     receipt_need[j] = new_receipt[0]
 L = int(s.readline())
 can_make = deque(map(int, s.readline().split()))
@@ -31,11 +28,9 @@ while can_make:
     if now in ans:
         continue
     ans.add(now)
-    for num, target in enumerate(connection[now]):
-        if target:
-            for receipt_idx in target:
-                receipt_need[receipt_idx] -= 1
-                if receipt_need[receipt_idx] == 0:
-                    can_make.append(num)
+    for idx, target in connection[now]:
+        receipt_need[idx] -= 1
+        if receipt_need[idx] == 0:
+            can_make.append(target)
 print(len(ans))
 print(*sorted(list(ans)))
