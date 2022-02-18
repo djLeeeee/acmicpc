@@ -1,7 +1,7 @@
 # 15586 무튜브 추천영상 개수 구하기
 # 오프라인 쿼리 개념 사용 -> 기억 안 나면 찾아보자. 별거 아님
-# find-union을 여기서 쓰게 될 줄은 몰랐다.
-# limit와 usado 정렬을 어떻게 할 지 정해주는 게 주요 포인트
+# find-union 을 여기서 쓰게 될 줄은 몰랐다.
+# limit 와 usado 정렬을 어떻게 할 지 정해주는 게 주요 포인트
 
 # import sys
 
@@ -28,7 +28,7 @@
 
 # N,T = map(int,sys.stdin.readline().split())
 
-# # Graph를 Dictionary로 표현
+# # Graph 를 Dictionary 로 표현
 # graph={}
 # for _ in range(N-1):
 #     x,y,rel = map(int, sys.stdin.readline().split())
@@ -49,13 +49,13 @@
 from sys import stdin as s
 
 m, n = map(int, s.readline().split())
-usado = [ ]
+usado = []
 for i in range(m - 1):
     p, q, r = map(int, s.readline().split())
     usado.append((r, p, q))
-usado.sort(reverse = True)
-limit = [ ]
-origin = [ ]
+usado.sort(reverse=True)
+limit = []
+origin = []
 for j in range(n):
     k, v = map(int, s.readline().split())
     limit.append((k, j))
@@ -66,11 +66,14 @@ limit.sort()
 # find - union 개념 필요한 듯
 parent = list(range(m + 1))
 parent_num = [1] * (m + 1)
+
+
 def find(target):
-	if target == parent[target]:
-		return target
-	parent[target] = find(parent[target])
-	return parent[target]
+    if target == parent[target]:
+        return target
+    parent[target] = find(parent[target])
+    return parent[target]
+
 
 def union(a, b):
     a = find(a)
@@ -80,21 +83,20 @@ def union(a, b):
     else:
         parent[a] = b
 
+
 result = [0] * n
 i = 0
 while limit:
-    a = limit.pop()
-    limit_now = a[0]
-    limit_index = a[1]
+    limit_now, limit_index = limit.pop()
     # limit 값보다 작은 놈들을 find_union?
     # 그럼 limit 작은 놈을 먼저 하는게 맞지 않나?
     # limit 보다 작은 connection 처리해주고, find 값이 다르면 성공?
     while i <= m - 2 and usado[i][0] >= limit_now:
         x = usado[i][1]
         y = usado[i][2]
-        a = parent_num[find(x)] + parent_num[find(y)]
+        total = parent_num[find(x)] + parent_num[find(y)]
         union(x, y)
-        parent_num[find(x)] = a
+        parent_num[find(x)] = total
         i += 1
     result[limit_index] = parent_num[find(origin[limit_index])] - 1
-print(*result, sep = '\n')
+print(*result, sep='\n')
