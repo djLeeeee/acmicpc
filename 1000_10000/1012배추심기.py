@@ -1,5 +1,7 @@
 import sys
-sys.setrecursionlimit(10**4)
+
+sys.setrecursionlimit(10 ** 4)
+
 
 def insect(g, a, b):
     if 0 <= a < x and 0 <= b < y and g[b][a] == 1:
@@ -8,6 +10,7 @@ def insect(g, a, b):
         insect(g, a, b - 1)
         insect(g, a + 1, b)
         insect(g, a, b + 1)
+
 
 t = int(sys.stdin.readline())
 for _ in range(t):

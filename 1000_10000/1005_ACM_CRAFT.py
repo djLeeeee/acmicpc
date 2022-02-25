@@ -43,7 +43,7 @@ from collections import deque
 T = int(s.readline())
 
 for _ in range(T):
-    n, k  = map(int, s.readline().split())
+    n, k = map(int, s.readline().split())
     time = [0] + list(map(int, s.readline().split()))
     connection = [[] for _ in range(n + 1)]
     dp = [0] * (n + 1)

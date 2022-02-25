@@ -32,12 +32,12 @@ m, M = map(int, s.readline().split())
 # 구간 길이가 구간에 있는 값들보다 훨씬 작다! => 2108번 통계학 때랑 비슷
 # nums를 다른 방법으로 표시 => set(list) 작업 거치지 않아도 update에 용이하다 / 통과
 sq = int(M ** 0.5)
-nums = [ 1 ] * (M - m + 1)
+nums = [1] * (M - m + 1)
 n = 2
 while n <= sq:
     x = ceil(m / (n * n))
     while x * n * n <= M:
-        nums [x * n * n - m] = 0
+        nums[x * n * n - m] = 0
         x += 1
     n += 1
 print(sum(nums))
