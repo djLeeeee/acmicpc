@@ -1,3 +1,7 @@
+# 2263 트리의 순회
+# 재귀로 해결.
+# 플레까지 달아놓고 index 함수 사용 왜 하냐고!!!
+
 from sys import stdin as s
 from sys import setrecursionlimit as st
 
