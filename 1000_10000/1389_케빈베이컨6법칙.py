@@ -1,35 +1,37 @@
-from sys import stdin as s
+from sys import stdin
 
-def BFS(line, start): # 너비 우선 (2)
-    result = [start]
-    start_points = result
-    n = 0
-    ans = 0
-    while start_points:
-        new_visit = []
-        for i in start_points:
-            for j in line[i]:
-                if j not in result and j not in new_visit:
-                    new_visit.append(j)
-        result += new_visit
-        start_points = new_visit
-        n += 1
-        ans += n * len(start_points)
-    return ans
+input = stdin.readline
 
-N, M = map( int, s.readline().split() ) # 변수 받기
 
-line = [ set() for i in range(N + 1) ] # line graph 생성 (2)
-for _ in range(M):
-    x, y = map( int, s.readline().split() )
-    line[x].update([y])
-    line[y].update([x])
+def bfs(idx):
+    start = [idx]
+    visited = [False] * (n + 1)
+    kv = 0
+    res = 0
+    while start:
+        new_start = []
+        for now in start:
+            if visited[now]:
+                continue
+            visited[now] = True
+            for adj in graph[now]:
+                if not visited[adj]:
+                    new_start.append(adj)
+        kv += 1
+        res += kv * len(start)
+        start = new_start
+    return res
 
-min_kn = BFS(line, 1)
-ans = 1
-for i in range(2, N + 1):
-    kn = BFS(line, i)
-    if min_kn > kn:
-        min_kn = kn
+
+n, m = map(int, input().split())
+graph = [[] for _ in range(n + 1)]
+for _ in range(m):
+    x, y = map(int, input().split())
+    graph[x].append(y)
+    graph[y].append(x)
+min_kv = 10000
+for i in range(1, n + 1):
+    if bfs(i) < min_kv:
+        min_kv = bfs(i)
         ans = i
 print(ans)
