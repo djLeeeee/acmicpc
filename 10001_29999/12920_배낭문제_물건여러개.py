@@ -7,12 +7,12 @@ from sys import stdin as s
 
 m, n = map(int, s.readline().split())
 
-goods = [ ]
+goods = []
 dp = [0] * (n + 1)
 for _ in range(m):
     v, c, k = map(int, s.readline().split())
     btmsk = 1
-    while k > 0: # 요기 while문이 비트마스크
+    while k > 0:  # 요기 while 문이 비트마스크
         a = min(btmsk, k)
         new_dp = [0] * (n + 1)
         new_dp[:a * v] = dp[:a * v]
