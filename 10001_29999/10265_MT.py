@@ -1,48 +1,93 @@
 # 10265 MT
-# FIND-UNION 후 각 트리의 크기만큼으로 배낭문제 해결하면 될 듯?
+from sys import stdin
+from collections import defaultdict
 
-# FIND-UNION 하고 나서 각 요소의 크기를 어떻게 받음??
-# 파인드 유니온 다 돌리기 -> 각 원소들 다시 한 번 돌면서 {FIND() : 집합 원소 갯수} 의 딕셔너리 생성
-# -> 딕셔너리의 VALUE 값으로 배낭 문제
-# 딱히 연산량이 많지는 않을 듯?
-
-from sys import stdin as s
-from sys import setrecursionlimit
-
-setrecursionlimit(10 ** 6)
-
-n, k = map(int, s.readline().split())
-parent = list(range(n + 1))
-
-# find-union 방법 자체는 잘 구현했으나 틀린 방법임.
-# 4번이 가야만 3번이 갈 수 있는 상황이지, 쌍방향이 아니다.
-# 현재 풀이는 쌍방향인 경우.
-def find(a):
-    if parent[a] == a:
-        return a
-    parent[a] = find(parent[a])
-    return parent[a]
+input = stdin.readline
 
 
-def union(a, b):
-    x = find(a)
-    y = find(b)
-    if x < y:
-        parent[y] = x
-    else:
-        parent[x] = y
-    return
+def dfs(idx):
+    if visited[idx]:
+        return
+    visited[idx] = True
+    for adj in graph[idx]:
+        if not visited[adj]:
+            dfs(adj)
+    stack.append(idx)
 
 
-connection = list(map(int, s.readline().split()))
-for idx, person in enumerate(connection):
-    if idx + 1 != person:
-        union(idx + 1, person)
-group = {}
-for i in range(1, n + 1):
-    group[find(i)] = group.get(find(i), 0) + 1
-dp = [0] * (k + 1)
-for num in group.values():
-    for now in range(k, num - 1, -1):
-        dp[now] = max(dp[now], dp[now - num] + num)
-print(dp[-1])
+def dfs_inv(idx):
+    global component
+    if check[idx]:
+        return
+    check[idx] = True
+    for adj in graph_inv[idx]:
+        if not check[adj]:
+            dfs_inv(adj)
+    component += 1
+    scc[idx] = num
+
+
+def dfs_scc(idx):
+    if visited_scc[idx]:
+        return 0
+    visited_scc[idx] = True
+    res = scc_size[idx]
+    for adj in graph_scc[idx]:
+        if not visited_scc[adj]:
+            res += dfs_scc(adj)
+    return res
+
+
+def sol(array, limit):
+    dp = [0] * (n + 1)
+    dp[0] = 1
+    for start, end in array:
+        for x in range(limit - start, -1, -1):
+            if dp[x]:
+                dp[x + start:x + end + 1] = [1] * (end - start + 1)
+    for res in range(limit, -1, -1):
+        if dp[res]:
+            return res
+
+
+n, k = map(int, input().split())
+graph = defaultdict(list)
+graph_inv = defaultdict(list)
+order = tuple(map(int, input().split()))
+# graph[i] = [j] i가 가면 j가 감
+for i in range(n):
+    graph[i + 1].append(order[i])
+    graph_inv[order[i]].append(i + 1)
+stack = []
+visited = [False] * (n + 1)
+for j in range(1, n + 1):
+    if not visited[j]:
+        dfs(j)
+check = [False] * (n + 1)
+scc = [0] * (n + 1)
+scc_size = [0]
+num = 0
+while stack:
+    now = stack.pop()
+    if not check[now]:
+        component = 0
+        num += 1
+        dfs_inv(now)
+        scc_size.append(component)
+graph_scc = defaultdict(list)
+deg_scc = [0] * (num + 1)
+# deg 가 0인 애들부터 처리하는 게 좋다.
+# 먼저 처리해야 하는 놈 = i가 가면 j가 갈때 j
+for i in range(n):
+    if scc[i + 1] != scc[order[i]]:
+        graph_scc[scc[order[i]]].append(scc[i + 1])
+        deg_scc[scc[i + 1]] += 1
+leaves_scc = []
+for j in range(1, num + 1):
+    if deg_scc[j] == 0:
+        leaves_scc.append(j)
+visited_scc = [False] * (num + 1)
+size_range = []
+for leaf in leaves_scc:
+    size_range.append((scc_size[leaf], dfs_scc(leaf)))
+print(sol(size_range, k))
