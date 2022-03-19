@@ -45,7 +45,6 @@ for i in range(1, n + 1):
         dfs(i)
 del graph
 component = 0
-arrival = set()
 component_cost = defaultdict(int)
 graph_scc = defaultdict(list)
 while stack:
