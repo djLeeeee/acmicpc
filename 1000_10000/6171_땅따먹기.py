@@ -15,9 +15,7 @@ while goods:
             real.pop()
             real.append(now)
 l = len(real)
-INF = float('inf')
-dp = [INF] * l
-dp[0] = 0
+dp = [0] * l
 # (컨벡스 헐 시작점, i with 기울기=h_(i + 1), y절편=dp[i])
 # real[j] = hj, wj
 CHT = [(0, 0)]
